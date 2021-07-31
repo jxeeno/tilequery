@@ -15,10 +15,10 @@
     npmlog "^4.1.2"
     tar "^4.0.2"
 
-"@mapbox/vtquery@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@mapbox/vtquery/-/vtquery-0.5.1.tgz#a88fc788f1038049b5e6f3c4362b95ceaab83da0"
-  integrity sha512-iPEDke7qN+MALb4vGL6FVrr/NqU4DBKNOoV8HDrUMlSeMPo8bXAq8r1FJgqfhgwzpSbjBFJiBgAL/Bly+LUiOA==
+"@mapbox/vtquery@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@mapbox/vtquery/-/vtquery-0.4.1.tgz#abfa5dcd623a71917ec1f358c326bfab0ed91c01"
+  integrity sha512-KWqxcXjqiSyH3L+s7vMZOSJSRKXBLkLncQ/O3mkz7wE/nTPni1bxsTnNfZewXnajNVwo4H4EE3jIvehXHt1+TQ==
   dependencies:
     "@mapbox/mason-js" "^0.1.5"
     nan "^2.14.0"
