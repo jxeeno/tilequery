@@ -1,0 +1,16 @@
+{
+    "tiles": {
+        "__name": "TILES_JSON",
+        "__format": "json"
+    },
+    "vtquery": {
+        "__name": "VTQUERY_JSON",
+        "__format": "json"
+    },
+    "fetch": {
+        "headers": {
+            "__name": "FETCH_HEADERS_JSON",
+            "__format": "json"
+        }
+    }
+}
