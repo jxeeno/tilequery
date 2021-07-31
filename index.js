@@ -7,7 +7,7 @@ const mercator = require('global-mercator');
 const TILES = config.get('tiles');
 
 const queryRemoteTiles = async (services, lonLat, params) => {
-    const serviceList = services ? services.split(',') : null;
+    const serviceList = services || services === '*' ? services.split(',') : null;
     const tileCandidates = services ? Object.entries(TILES).filter(([serviceName]) => serviceList.includes(serviceName)).map(s => s[1]) : Object.values(TILES);
 
     const tiles = await Promise.all(tileCandidates.map(async tile => {
@@ -56,8 +56,33 @@ async function respond(req, res, next) {
     }
 }
 
+async function respondV2(req, res, next) {
+    try{
+        const {services, coordinates} = req.params;
+        const [lon, lat] = coordinates.split(',');
+        const {radius, limit, layers} = req.query;
+        const lonLat = [Number(lon), Number(lat)];
+
+        const params = {
+            radius: isFinite(Number(radius)) ? Number(radius) : 0,
+            limit: isFinite(parseInt(limit)) && parseInt(limit) >= 0 ? parseInt(limit) : 10,
+            ...(layers && typeof layers === 'string' ? {layers: layers.split(',')} : {})
+        };
+
+        const responses = await queryRemoteTiles(services, lonLat, params);
+
+        res.contentType = 'json';
+        res.send({responses});
+        next();
+    }catch(e){
+        res.contentType = 'json';
+        res.send({error: true, mesage: e.message});
+    }
+}
+
 var server = restify.createServer();
 server.get('/query', respond);
+server.get('/tilequery/:services/:coordinates', respondV2);
 
 const PORT = process.env.PORT || 8080;
 server.use(restify.plugins.queryParser());
