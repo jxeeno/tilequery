@@ -13,7 +13,6 @@ const queryRemoteTiles = async (services, lonLat, params) => {
     const tiles = await Promise.all(tileCandidates.map(async tile => {
         try{
             const [x, y, z] = mercator.lngLatToGoogle(lonLat, tile.zoom);
-            console.log({x, y, z, lonLat});
             let buffer = await fetch(tile.url.replace('{x}', x).replace('{y}', y).replace('{z}', tile.zoom), {compress: true}).then(res => res.buffer());
 
             return {buffer, z, y, x };
@@ -23,8 +22,8 @@ const queryRemoteTiles = async (services, lonLat, params) => {
     }))
       
     const options = {
-        ...config.get("vtquery"),
-        ...params
+        ...params,
+        ...config.get("vtquery")
     };
       
     return new Promise((resolve, reject) => 
@@ -37,12 +36,13 @@ const queryRemoteTiles = async (services, lonLat, params) => {
 
 async function respond(req, res, next) {
     try{
-        const {lon, lat, radius, limit, services} = req.query;
+        const {lon, lat, radius, limit, services, layers} = req.query;
         const lonLat = [Number(lon), Number(lat)];
 
         const params = {
             radius: isFinite(Number(radius)) ? Number(radius) : 0,
             limit: isFinite(parseInt(limit)) && parseInt(limit) >= 0 ? parseInt(limit) : 10,
+            ...(layers && typeof layers === 'string' ? {layers: layers.split(',')} : {})
         };
 
         const responses = await queryRemoteTiles(services, lonLat, params);
