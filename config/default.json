@@ -3,7 +3,8 @@
         "esri_osm": {"url": "https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{y}/{x}.pbf", "zoom": 20}
     },
     "vtquery": {
-        "dedupe": true
+        "dedupe": true,
+        "direct_hit_polygon": true
     },
     "fetch": {
         "headers": {}
