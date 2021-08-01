@@ -8,7 +8,7 @@ const TILES = config.get('tiles');
 
 const queryRemoteTiles = async (services, lonLat, params) => {
     const serviceList = services && services !== '*' ? services.split(',') : null;
-    const tileCandidates = services ? Object.entries(TILES).filter(([serviceName]) => serviceList.includes(serviceName)).map(s => s[1]) : Object.values(TILES);
+    const tileCandidates = serviceList ? Object.entries(TILES).filter(([serviceName]) => serviceList.includes(serviceName)).map(s => s[1]) : Object.values(TILES);
 
     const tiles = await Promise.all(tileCandidates.map(async tile => {
         try{
