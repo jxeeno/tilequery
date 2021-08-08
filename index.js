@@ -60,12 +60,13 @@ async function respondV2(req, res, next) {
     try{
         const {services, coordinates} = req.params;
         const [lon, lat] = coordinates.split(',');
-        const {radius, limit, layers} = req.query;
+        const {radius, limit, layers, direct_hit_polygon} = req.query;
         const lonLat = [Number(lon), Number(lat)];
 
         const params = {
             radius: isFinite(Number(radius)) ? Number(radius) : 0,
             limit: isFinite(parseInt(limit)) && parseInt(limit) >= 0 ? parseInt(limit) : 10,
+            direct_hit_polygon: direct_hit_polygon != null ? true : false,
             ...(layers && typeof layers === 'string' ? {layers: layers.split(',')} : {})
         };
 
